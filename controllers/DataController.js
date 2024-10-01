@@ -16,7 +16,7 @@ exports.mass_create = catchAsync(async (req, res, next) => {
 })
 
 exports.query = catchAsync(async (req, res, next) => {
-    const data = await DataModel.find({
+    const data = await DataModel.create({
         jenis_kelamin: "Laki-Laki"
     });
     res.status(200).json({
