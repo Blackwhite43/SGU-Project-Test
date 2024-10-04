@@ -16,9 +16,67 @@ exports.mass_create = catchAsync(async (req, res, next) => {
 })
 
 exports.query = catchAsync(async (req, res, next) => {
-    const data = await DataModel.create({
-        jenis_kelamin: "Laki-Laki"
+    // Can only run one function at one time please uncomment only one function 
+
+    // .find() below means "select * from DataModel"
+    // const data = await DataModel.find();
+
+    // .find({}) example below means "select * from DataModel where ipk >= 3.4"
+    const data = await DataModel.find({
+        ipk: {$gte: 3.4}
     });
+
+    // Create Data, also can create many data like insertMany (use [] array)
+    // const data = await DataModel.create([
+        // {
+            // nim: "2506594521",
+            // nama: "random_name",
+            // program_studi: "Master of Information Technology",
+            // jenis_kelamin: "Laki-Laki",
+            // no_telepon: "+6285265412397",
+            // ipk: 4
+        // },
+        // {
+            // nim: "2506594521",
+            // nama: "random_name",
+            // program_studi: "Master of Information Technology",
+            // jenis_kelamin: "Perempuan",
+            // no_telepon: "+6285265412397",
+            // ipk: 4
+        // }
+    // ]);
+
+
+    // Mass Insert Data into MongoDB (Should be more faster than create)
+    // const data = await DataModel.insertMany([
+    //     {
+    //         nim: "2506594521",
+    //         nama: "random_name",
+    //         program_studi: "Master of Information Technology",
+    //         jenis_kelamin: "Laki-Laki",
+    //         no_telepon: "+6285265412397",
+    //         ipk: 4
+    //     },
+    //     {
+    //         nim: "2506594521",
+    //         nama: "random_name",
+    //         program_studi: "Master of Information Technology",
+    //         jenis_kelamin: "Perempuan",
+    //         no_telepon: "+6285265412397",
+    //         ipk: 4
+    //     }
+    // ]);
+
+    // Find by MongoDB ID and Delete, change "66fb57492963f8b509abd80c" with the data ID in your MongoDB data
+    // const data = await DataModel.findByIdAndDelete("66fb57492963f8b509abd80c");
+
+    // Find by MongoDB ID and update, change "66cec24ad39c547d16506c93" with the data ID in your MongoDB data
+    // const data = await DataModel.findByIdAndUpdate("66cec24ad39c547d16506c93", {
+    //     $set: {
+    //         program_studi: "Master of Information Technology"
+    //     }
+    // });
+
     res.status(200).json({
         status: 'success',
         data: data
