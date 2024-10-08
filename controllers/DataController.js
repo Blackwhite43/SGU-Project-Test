@@ -22,9 +22,9 @@ exports.query = catchAsync(async (req, res, next) => {
     // const data = await DataModel.find();
 
     // .find({}) example below means "select * from DataModel where ipk >= 3.4"
-    const data = await DataModel.find({
-        ipk: {$gte: 3.4}
-    });
+    // const data = await DataModel.find({
+    //     ipk: {$gte: 3.4}
+    // });
 
     // Create Data, also can create many data like insertMany (use [] array)
     // const data = await DataModel.create([
@@ -77,6 +77,25 @@ exports.query = catchAsync(async (req, res, next) => {
     //     }
     // });
 
+    // Aggregate the data and count the total value
+    const data = await DataModel.aggregate([
+        {
+            '$group': {
+                '_id': '$program_studi', 
+                'total': {
+                    '$sum': 1
+                },
+                'Average GPA': {
+                    '$avg': '$ipk'
+                }
+            }
+        },
+        {
+            '$sort': {
+                'Average GPA': -1
+            }
+        }
+    ])
     res.status(200).json({
         status: 'success',
         data: data
